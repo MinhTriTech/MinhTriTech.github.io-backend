@@ -3,7 +3,7 @@ import "dotenv/config";
 import express from "express";
 import cors from "cors";
 
-import sql from "./db.js";
+import profileRoutes from "./routes/profileRoutes.js";
 
 
 const app = express();
@@ -11,19 +11,7 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-app.get("/", (req, res) => {
-    res.send("Backend running");
-});
-
-app.get("/test", async (req, res) => {
-    try {
-        const result = await sql`SELECT * FROM test_names;`;
-        res.json(result);
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({ message: "DB error" });
-    }
-});
+app.use("/profile", profileRoutes);
 
 const PORT = process.env.PORT || 5000;
 
